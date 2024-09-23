@@ -419,7 +419,7 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
               className="font-semibold"
             >
               {isSubmitting && (
-                <Loader2 className="h-5 w-5 mr-3 animate-spin" />
+                <Loader2 className="size-5 mr-3 animate-spin" />
               )}
               {action}
             </Button>

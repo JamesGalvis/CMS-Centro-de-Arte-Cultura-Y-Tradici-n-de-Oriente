@@ -4,7 +4,11 @@ export const navRoutes = [
     href: "/"
   },
   {
-    label: "Carteles Publicitarios",
+    label: "Carteles publicitarios",
     href: "/billboards"
+  },
+  {
+    label: "Sobre nosotros",
+    href: "/about-us"
   },
 ]
