@@ -154,7 +154,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
   return (
     <div
       className={cn(
-        "relative sm:grid flex flex-col max-w-screen-xl mx-auto sm:grid-cols-2 grid-cols-1",
+        "relative md:grid flex flex-col max-w-screen-2xl mx-auto md:grid-cols-2 grid-cols-1",
         className
       )}
       style={{
@@ -184,7 +184,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
       {/* Componente de cambiar imagen */}
       <div
         className={cn(
-          "relative [grid-area:image] w-full h-[620px] max-sm:h-[300px]",
+          "relative [grid-area:image] w-full h-[620px] max-md:h-[450px] max-sm:h-[300px]",
           !data && "flex items-center justify-center"
         )}
       >
@@ -245,12 +245,12 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
           data?.reverse && "max-sm:text-right"
         )}
       >
-        <div className="lg:w-[70%] md:w-[85%] w-full space-y-4 max-sm:py-4">
+        <div className="lg:w-[80%] md:w-[85%] w-full space-y-4 max-sm:py-4">
           <h2
             contentEditable
             suppressContentEditableWarning
             onInput={(e) => setTitle(e.currentTarget.textContent as string)}
-            className="text-3xl max-md:text-[26px] font-bold outline-none focus:outline-none border-none"
+            className="text-3xl max-lg:text-[26px] font-bold outline-none focus:outline-none border-none"
           >
             {data ? data.title : "Sin titulo"}
           </h2>
@@ -260,7 +260,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
             onInput={(e) =>
               setDescription(e.currentTarget.textContent as string)
             }
-            className="text-foreground/70 lg:text-lg max-md:text-[15px] outline-none focus:outline-none border-none"
+            className="text-foreground/70 lg:text-lg max-lg:text-[16px] outline-none focus:outline-none border-none"
           >
             {data ? data.description : "Sin descripción"}
           </p>

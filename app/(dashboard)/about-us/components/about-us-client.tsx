@@ -71,12 +71,13 @@ export function AboutUsClient({ initialData, selectItems }: aboutUsInfoProps) {
         onConfirm={onConfirm}
       />
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex max-sm:flex-col sm:items-center sm:justify-between sm:gap-3 gap-6">
           <Heading
             title={
               selectedItem === "Crear" ? "Agrega información" : selectedItem
             }
             description="Crear, visualiza o modifica la información sobre CACTO"
+            className="max-sm:text-start"
           />
 
           <div className="flex items-center gap-3">
