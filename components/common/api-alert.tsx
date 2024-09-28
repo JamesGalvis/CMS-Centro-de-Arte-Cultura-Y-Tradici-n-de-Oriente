@@ -32,23 +32,32 @@ export function ApiAlert({
 
   return (
     <Alert className="bg-muted/50">
-      <Server className="size-4" />
-      <AlertTitle className="flex items-center gap-x-3">
-        {title}
-        <Badge variant={variantMap[variant]} className="font-medium py-[0.9px] ">{textMap[variant]}</Badge>
-      </AlertTitle>
+      <div className="flex gap-2 justify-between">
+        <div className="flex items-center gap-2">
+          <AlertTitle className="flex items-center justify-between gap-x-2">
+            <Server className="size-4" />
+            {title}
+            <Badge
+              variant={variantMap[variant]}
+              className="font-medium py-[0.9px] "
+            >
+              {textMap[variant]}
+            </Badge>
+          </AlertTitle>
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => onCopy(description)}
+          className="hover:bg-transparent dark:hover:bg-transparent bg-muted"
+        >
+          <Copy className="size-4 shrink-0" />
+        </Button>
+      </div>
       <AlertDescription className="flex items-center justify-between mt-3">
-        <code className="relative rounded px-[0.6rem] py-[0.4rem] font-mono font-semibold bg-muted-foreground/20 dark:bg-muted-foreground/50">
+        <code className="relative max-sm:w-full w-fit rounded px-[0.6rem] py-[0.4rem] font-mono font-semibold bg-muted-foreground/20 dark:bg-muted-foreground/50 truncate">
           {description}
         </code>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onCopy(description)}
-            className="hover:bg-transparent dark:hover:bg-transparent bg-muted"
-          >
-            <Copy className="size-4 shrink-0" />
-          </Button>
       </AlertDescription>
     </Alert>
   )

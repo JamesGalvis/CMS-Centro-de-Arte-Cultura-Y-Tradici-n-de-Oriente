@@ -3,8 +3,17 @@
 import { navRoutes } from "@/constants"
 import { cn } from "@/lib/utils"
 import { usePathname, useRouter } from "next/navigation"
+import { SheetClose } from "../ui/sheet"
 
-export function NavRoutes() {
+interface NavRoutesProps {
+  direction?: "column" | "row"
+  isMobileNav?: boolean
+}
+
+export function NavRoutes({
+  direction = "row",
+  isMobileNav = false,
+}: NavRoutesProps) {
   const router = useRouter()
   const pathname = usePathname()
 
@@ -13,24 +22,46 @@ export function NavRoutes() {
   }
 
   return (
-    <ul className="flex items-center gap-5">
-      {navRoutes.map(({ label, href }) => {
-        const isActive =
-          (pathname === "/" && href === "/") ||
-          pathname === href
-          // || pathname.startsWith(href)
+    <ul
+      className={cn(
+        "flex items-center gap-5",
+        direction === "column" && "flex-col"
+      )}
+    >
+      {navRoutes.map(({ label, href }, i) => {
+        const isActive = (pathname === "/" && href === "/") || pathname === href
+        // || pathname.startsWith(href)
 
         return (
-          <li
-            key={href}
-            onClick={() => handleClick(href)}
-            className={cn(
-              "font-medium text-muted-foreground cursor-pointer hover:text-primary transition",
-              isActive && "text-primary"
+          <>
+            {!isMobileNav && (
+              <li
+                key={i}
+                onClick={() => handleClick(href)}
+                className={cn(
+                  "font-medium text-muted-foreground cursor-pointer hover:text-primary transition",
+                  isActive && "text-primary",
+                  direction === "column" && "w-full text-start"
+                )}
+              >
+                {label}
+              </li>
             )}
-          >
-            {label}
-          </li>
+            {isMobileNav && (
+              <SheetClose asChild key={i}>
+                <li
+                  onClick={() => handleClick(href)}
+                  className={cn(
+                    "font-medium text-muted-foreground cursor-pointer hover:text-primary transition",
+                    isActive && "text-primary",
+                    direction === "column" && "w-full text-start"
+                  )}
+                >
+                  {label}
+                </li>
+              </SheetClose>
+            )}
+          </>
         )
       })}
     </ul>

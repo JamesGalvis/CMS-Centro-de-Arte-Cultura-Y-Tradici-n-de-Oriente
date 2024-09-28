@@ -159,16 +159,16 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
       )}
       style={{
         gridTemplateAreas:
-          data?.reverse || isReverse ? "'content image'" : "'image content'",
+          isReverse ? "'content image'" : "'image content'",
       }}
     >
       {/* Boton de revertir el orden */}
-      <div>
+      <div className="max-md:hidden">
         <Button
           size="icon"
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-black dark:bg-white text-secondary z-[60]"
-          onClick={(e) => {
-            e.stopPropagation()
+          onClick={() => {
+            console.log(isReverse)// e.stopPropagation()
             setIsReverse((prev) => !prev)
           }}
         >
@@ -242,7 +242,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
       <div
         className={cn(
           "[grid-area:content] w-full flex-1 flex items-center justify-center sm:p-12 py-4 md:px-4 px-6",
-          data?.reverse && "max-sm:text-right"
+          isReverse && "max-sm:text-right"
         )}
       >
         <div className="lg:w-[80%] md:w-[85%] w-full space-y-4 max-sm:py-4">
@@ -268,7 +268,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
       </div>
 
       {/* Contenedor del boton de envio de información */}
-      <div className="flex items-center justify-end mt-2">
+      <div className="flex items-center justify-end mt-2 gap-4">
         <Button
           disabled={!title || !description || !imageSrc || loading}
           onClick={handleSubmit}

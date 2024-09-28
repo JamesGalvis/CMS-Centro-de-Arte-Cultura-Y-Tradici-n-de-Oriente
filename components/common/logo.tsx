@@ -9,15 +9,29 @@ export function Logo() {
         alt="Logo uniminuto"
         width={255}
         height={68}
-        className="w-[170px] h-[45px] hidden dark:block object-cover"
+        className="w-[170px] h-[45px] hidden dark:block object-cover max-lg:hidden max-lg:dark:hidden"
       />
       <Image
         src="/icons/logo-uniminuto.png"
         alt="Logo uniminuto"
         width={255}
         height={68}
-        className="w-[170px] h-[45px] block dark:hidden object-cover"
+        className="w-[170px] h-[45px] block dark:hidden object-cover max-lg:hidden"
       />
+      <Image
+        src="/icons/um-logo.png"
+        alt="Uniminuto Logo"
+        width={200}
+        height={50}
+        className="w-[30px] h-auto lg:hidden block"
+      />
+      {/* <Image
+        src="/icons/um-logo.png"
+        alt="Uniminuto Logo"
+        width={200}
+        height={50}
+        className="w-[30px] h-auto lg:hidden block"
+      /> */}
     </Link>
   )
 }

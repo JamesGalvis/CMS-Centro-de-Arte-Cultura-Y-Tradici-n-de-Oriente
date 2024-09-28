@@ -88,7 +88,7 @@ export function AboutUsClient({ initialData, selectItems }: aboutUsInfoProps) {
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Theme" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="z-[9999]">
                 {selectItems.map((item, i) => (
                   <SelectItem key={i} value={item}>
                     {item}

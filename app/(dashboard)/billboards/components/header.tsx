@@ -9,7 +9,7 @@ export function Header({ counter }: { counter: number }) {
   const router = useRouter()
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex max-sm:flex-col sm:items-center sm:justify-between gap-4">
       <Heading
         title={`Carteles Publicitarios (${counter})`}
         description="Modifica el contenido que aparecerá en el slider del encabezado"
