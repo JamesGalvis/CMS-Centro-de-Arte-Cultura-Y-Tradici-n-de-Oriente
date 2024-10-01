@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const aboutUsSections = await db.aboutUs.findMany({
       orderBy: {

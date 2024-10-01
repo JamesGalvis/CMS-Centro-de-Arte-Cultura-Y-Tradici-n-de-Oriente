@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
 export async function GET(
-  _: Request,
+  req: Request,
   { params }: { params: { eventId: string } }
 ) {
   try {
