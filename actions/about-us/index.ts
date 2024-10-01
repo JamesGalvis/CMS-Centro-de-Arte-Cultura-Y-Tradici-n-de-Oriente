@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import { AboutUsSchema } from "@/schemas/about-us"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { deleteImage } from "../uploadthing"
+import { deleteFile } from "../uploadthing"
 
 export async function createAboutUsSection(
   aboutUsData: z.infer<typeof AboutUsSchema>,
@@ -86,7 +86,7 @@ export async function deleteAboutUsSection(
       return { error: "Datos inváidos!" }
     }
 
-    const success = await deleteImage(image)
+    const success = await deleteFile(image)
 
     if (!success) {
       return { error: "Error al eliminar la imagen" }

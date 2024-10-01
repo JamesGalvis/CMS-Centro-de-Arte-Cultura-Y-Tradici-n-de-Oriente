@@ -1,10 +1,10 @@
-import { Header } from "./components/header"
 import { db } from "@/lib/db"
 import { BillboardColumn, columns } from "./components/columns"
 import { format } from "date-fns"
 import { DataTable } from "@/components/common/data-table"
 import { Heading } from "@/components/common/heading"
 import ApiList from "@/components/common/api-list"
+import { Header } from "@/components/common/header"
 
 export default async function BillboardPage() {
   const billboards = await db.billboard.findMany({
@@ -24,7 +24,11 @@ export default async function BillboardPage() {
 
   return (
     <div className="space-y-12">
-      <Header counter={billboards.length} />
+      <Header
+        title={`Carteles Publicitario (${billboards.length})`}
+        description="Modifica el contenido que aparecerá en el slider del encabezado"
+        buttonHref="/billboards/new"
+      />
       <DataTable
         searchKey="title"
         columns={columns}

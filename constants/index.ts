@@ -11,4 +11,8 @@ export const navRoutes = [
     label: "Sobre nosotros",
     href: "/about-us"
   },
+  {
+    label: "Eventos",
+    href: "/events"
+  },
 ]

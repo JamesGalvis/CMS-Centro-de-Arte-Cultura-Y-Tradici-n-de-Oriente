@@ -3,13 +3,14 @@ import { NextResponse } from "next/server"
 
 const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
-export async function GET(req: Request) {
+export async function GET(
+  req: Request,
+  { params }: { params: { eventId: string } }
+) {
   try {
-    const aboutUsSections = await db.aboutUs.findMany({
-      orderBy: {
-        createdAt: "asc"
-      }
-    })
+    if (!params.eventId) {
+      return new NextResponse("Event ID is required", { status: 400 })
+    }
 
     const headers = new Headers({
       "Access-Control-Allow-Origin": allowedOrigin,
@@ -17,16 +18,20 @@ export async function GET(req: Request) {
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
     })
 
-    return NextResponse.json(aboutUsSections, { headers })
+    const event = await db.event.findUnique({
+      where: { id: params.eventId },
+    })
+
+    return NextResponse.json(event, { headers })
   } catch (error) {
-    console.log("[ABOUT_US_GET_ERROR]")
+    console.log("[EVENT_GET_ERROR]")
     return new NextResponse("Internal error", { status: 500 })
   }
 }
 
 export async function OPTIONS() {
   const headers = new Headers({
-    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Origin": "http://localhost:3001",
     "Access-Control-Allow-Methods": "GET,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
   })

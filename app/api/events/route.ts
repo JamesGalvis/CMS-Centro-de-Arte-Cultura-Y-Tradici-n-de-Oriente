@@ -5,11 +5,7 @@ const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
 export async function GET(req: Request) {
   try {
-    const aboutUsSections = await db.aboutUs.findMany({
-      orderBy: {
-        createdAt: "asc"
-      }
-    })
+    const events = await db.event.findMany()
 
     const headers = new Headers({
       "Access-Control-Allow-Origin": allowedOrigin,
@@ -17,9 +13,9 @@ export async function GET(req: Request) {
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
     })
 
-    return NextResponse.json(aboutUsSections, { headers })
+    return NextResponse.json(events, { headers })
   } catch (error) {
-    console.log("[ABOUT_US_GET_ERROR]")
+    console.log("[EVENTS_GET_ERROR]")
     return new NextResponse("Internal error", { status: 500 })
   }
 }

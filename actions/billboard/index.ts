@@ -5,7 +5,7 @@ import { BillBoardSchema } from "@/schemas/billboard"
 import { revalidatePath } from "next/cache"
 import { db } from "@/lib/db"
 import { currentUser } from "@/lib/auth-user"
-import { deleteImage } from "../uploadthing"
+import { deleteFile } from "../uploadthing"
 
 export async function createBillboard(
   billboardData: z.infer<typeof BillBoardSchema>,
@@ -85,7 +85,7 @@ export async function deleteBillboard(billboardId: string, image: string) {
       return { error: "Datos inváidos!" }
     }
 
-    const success = await deleteImage(image)
+    const success = await deleteFile(image)
 
     if (!success) {
       return { error: "Error al eliminar la imagen" }

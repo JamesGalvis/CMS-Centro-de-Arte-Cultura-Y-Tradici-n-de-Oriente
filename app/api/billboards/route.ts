@@ -1,12 +1,14 @@
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
 
+const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
+
 export async function GET(req: Request) {
   try {
     const billboards = await db.billboard.findMany()
 
     const headers = new Headers({
-      'Access-Control-Allow-Origin': 'http://localhost:3001', // Permite solicitudes solo desde localhost:3001
+      'Access-Control-Allow-Origin': allowedOrigin,
       'Access-Control-Allow-Methods': 'GET,OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     });
@@ -20,7 +22,7 @@ export async function GET(req: Request) {
 
 export async function OPTIONS() {
   const headers = new Headers({
-    'Access-Control-Allow-Origin': 'http://localhost:3001',
+    'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Methods': 'GET,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   });

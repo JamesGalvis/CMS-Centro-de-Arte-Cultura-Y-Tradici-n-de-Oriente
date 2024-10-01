@@ -70,3 +70,19 @@ model AboutUs {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  address     String
+  startDate   DateTime
+  endDate     DateTime
+  billboard   String // Imagen del evento
+  images      String[]
+  podcastUrl  String
+  videoUrl    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
