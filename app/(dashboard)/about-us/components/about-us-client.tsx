@@ -34,7 +34,7 @@ export function AboutUsClient({ initialData, selectItems }: aboutUsInfoProps) {
     if (selectItems.length > 0) {
       setSelectedItem(selectItems[0]) // Inicializa con el primer ítem si no hay ninguno seleccionado
     }
-  }, [selectItems])
+  }, [selectItems, setSelectedItem])
 
   const onConfirm = () => {
     startTransition(async () => {
@@ -42,19 +42,21 @@ export function AboutUsClient({ initialData, selectItems }: aboutUsInfoProps) {
         (section) => section.title === selectedItem
       )
       try {
-        const { success, error } = await deleteAboutUsSection(
-          section?.id!,
-          section?.image!
-        )
+        if (section?.id && section?.image) {
+          const { success, error } = await deleteAboutUsSection(
+            section.id,
+            section.image
+          )
 
-        if (error) {
-          toast.error(error)
+          if (error) {
+            toast.error(error)
+          }
+  
+          if (success) {
+            toast.success(success)
+          }
         }
-
-        if (success) {
-          toast.success(success)
-        }
-      } catch (error) {
+      } catch {
         toast.error("Algo salió mal.")
       } finally {
         setOpen(false)

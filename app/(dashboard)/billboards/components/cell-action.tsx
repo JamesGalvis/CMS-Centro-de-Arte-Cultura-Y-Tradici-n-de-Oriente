@@ -41,7 +41,7 @@ export function CellAction({ billboardData }: CellActionProps) {
         if (success) {
           toast.success(success)
         }
-      } catch (error) {
+      } catch {
         toast.error("Algo salió mal al eliminar el cartel publicitario.")
       } finally {
         setOpen(false)

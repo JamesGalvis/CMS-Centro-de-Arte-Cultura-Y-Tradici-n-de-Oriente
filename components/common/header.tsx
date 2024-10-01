@@ -16,7 +16,6 @@ export function Header({
   title,
   description,
   buttonHref,
-  counter,
 }: HeaderProps) {
   const router = useRouter()
 

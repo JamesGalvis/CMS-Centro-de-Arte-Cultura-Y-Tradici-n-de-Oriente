@@ -2,7 +2,7 @@
 
 import { MenuIcon } from "lucide-react"
 import { Button } from "../ui/button"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet"
 import { NavRoutes } from "./nav-routes"
 
 export function MobileNavbar() {

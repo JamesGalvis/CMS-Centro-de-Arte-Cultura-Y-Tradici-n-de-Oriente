@@ -101,7 +101,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
         if (data) {
           updateProcess(infoData, newImage!)
         }
-      } catch (error) {
+      } catch {
         toast.error("Algo salió mal.")
       }
     })
@@ -123,7 +123,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
       if (error) {
         toast.error(error)
       }
-    } catch (error) {
+    } catch {
       toast.error("Algo salio mal al crear la sección.")
     }
   }
@@ -133,20 +133,22 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
     imageUrl: string
   ) => {
     try {
-      const { success, error } = await updateAboutUsSection(
-        data?.id!,
-        imageUrl,
-        values
-      )
+      if (data && data.id) {
+        const { success, error } = await updateAboutUsSection(
+          data.id,
+          imageUrl,
+          values
+        )
 
-      if (success) {
-        toast.success(toastMessage)
-      }
+        if (success) {
+          toast.success(toastMessage)
+        }
 
-      if (error) {
-        toast.error(error)
+        if (error) {
+          toast.error(error)
+        }
       }
-    } catch (error) {
+    } catch {
       toast.error("Algo salió mal en la actualización.")
     }
   }
@@ -158,8 +160,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
         className
       )}
       style={{
-        gridTemplateAreas:
-          isReverse ? "'content image'" : "'image content'",
+        gridTemplateAreas: isReverse ? "'content image'" : "'image content'",
       }}
     >
       {/* Boton de revertir el orden */}
@@ -168,7 +169,7 @@ export default function AboutUsPreview({ data, className }: InfoSectionProps) {
           size="icon"
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-black dark:bg-white text-secondary z-[60]"
           onClick={() => {
-            console.log(isReverse)// e.stopPropagation()
+            console.log(isReverse) // e.stopPropagation()
             setIsReverse((prev) => !prev)
           }}
         >

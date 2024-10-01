@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const aboutUsSections = await db.aboutUs.findMany({
       orderBy: {
@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(aboutUsSections, { headers })
   } catch (error) {
-    console.log("[ABOUT_US_GET_ERROR]")
+    console.error("[ABOUT_US_GET_ERROR]", error);
     return new NextResponse("Internal error", { status: 500 })
   }
 }

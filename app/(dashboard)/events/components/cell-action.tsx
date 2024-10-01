@@ -35,26 +35,28 @@ export function CellAction({ eventData }: CellActionProps) {
     }
 
     getEventData()
-  }, [])
+  }, [eventData.id])
 
   const handleConfirm = () => {
     if (event) {
       const filesToDelete = [...event.images, event.billboard, event.podcastUrl]
       startTransition(async () => {
         try {
-          const { success, error } = await deleteEvent(
-            event?.id!,
-            filesToDelete
-          )
+          if (event && event.id) {
+            const { success, error } = await deleteEvent(
+              event.id,
+              filesToDelete
+            )
 
-          if (error) {
-            toast.error(error)
-          }
+            if (error) {
+              toast.error(error)
+            }
 
-          if (success) {
-            toast.success(success)
+            if (success) {
+              toast.success(success)
+            }
           }
-        } catch (error) {
+        } catch {
           toast.error("Algo salió mal al eliminar el evento.")
         } finally {
           setOpen(false)

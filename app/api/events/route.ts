@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const events = await db.event.findMany()
 
@@ -15,7 +15,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(events, { headers })
   } catch (error) {
-    console.log("[EVENTS_GET_ERROR]")
+    console.log("[EVENTS_GET_ERROR]", error)
     return new NextResponse("Internal error", { status: 500 })
   }
 }

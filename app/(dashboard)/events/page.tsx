@@ -2,7 +2,6 @@ import { DataTable } from "@/components/common/data-table"
 import { Header } from "@/components/common/header"
 import { columns, EventsColumn } from "./components/columns"
 import { db } from "@/lib/db"
-import { format } from "date-fns"
 import { Heading } from "@/components/common/heading"
 import ApiList from "@/components/common/api-list"
 

@@ -1,10 +1,7 @@
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
 
-export async function GET(
-  req: Request,
-  { params }: { params: { aboutUsId: string } }
-) {
+export async function GET(_: Request,{ params }: { params: { aboutUsId: string } }) {
   try {
     if (!params.aboutUsId) {
       return new NextResponse("AboutUs ID is required", { status: 400 })
@@ -16,7 +13,7 @@ export async function GET(
 
     return NextResponse.json(aboutUsSection)
   } catch (error) {
-    console.log("[ABOUT_US_GET_ERROR]")
+    console.log("[ABOUT_US_GET_ERROR]", error)
     return new NextResponse("Internal error", { status: 500 })
   }
 }

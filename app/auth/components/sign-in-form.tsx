@@ -58,6 +58,7 @@ export function SignInForm() {
         form.reset()
       }
     } catch (error) {
+      console.log(error)
       toast.error("Algo salió mal!")
     }
   }

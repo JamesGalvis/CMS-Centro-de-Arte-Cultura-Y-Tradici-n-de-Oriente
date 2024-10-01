@@ -2,7 +2,7 @@ import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
 
 export async function GET(
-  req: Request,
+  _: Request,
   { params }: { params: { billboardId: string } }
 ) {
   try {
@@ -16,7 +16,7 @@ export async function GET(
 
     return NextResponse.json(billboard)
   } catch (error) {
-    console.log("[BILLBOARD_GET_ERROR]")
+    console.log("[BILLBOARD_GET_ERROR]", error)
     return new NextResponse("Internal error", { status: 500 })
   }
 }

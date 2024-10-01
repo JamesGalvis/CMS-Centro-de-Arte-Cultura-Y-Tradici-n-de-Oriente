@@ -243,7 +243,7 @@ export function EventForm({ initialData }: EventFormProps) {
         } else {
           await updateProcess(values, billboardImage, images, audioUrl)
         }
-      } catch (error) {
+      } catch {
         toast.error("Algo salió mal en la subida de los archivos multimedia.")
       }
     })
@@ -271,7 +271,7 @@ export function EventForm({ initialData }: EventFormProps) {
       if (error) {
         toast.error(error)
       }
-    } catch (error) {
+    } catch {
       toast.error("Algo salio mal al crear el cartel publicitario.")
     }
   }
@@ -283,56 +283,59 @@ export function EventForm({ initialData }: EventFormProps) {
     audioUrl: string
   ) => {
     try {
-      const { success, error } = await updateEvent(
-        initialData?.id!,
-        values,
-        images,
-        billboardImage,
-        audioUrl
-      )
+      if (initialData && initialData.id) {
+        const { success, error } = await updateEvent(
+          initialData.id,
+          values,
+          images,
+          billboardImage,
+          audioUrl
+        )
 
-      if (success) {
-        toast.success(toastMessage)
-        router.push("/events")
-      }
+        if (success) {
+          toast.success(toastMessage)
+          router.push("/events")
+        }
 
-      if (error) {
-        toast.error(error)
+        if (error) {
+          toast.error(error)
+        }
       }
-    } catch (error) {
-      console.error(error)
+    } catch {
       toast.error("Algo salió mal en la actualización del evento.")
     }
   }
 
   const handleDeletionConfirmation = () => {
-    const filesToDelete = [
-      ...initialData?.images!,
-      initialData?.billboard!,
-      initialData?.podcastUrl!,
-    ]
+    if (initialData) {
+      const filesToDelete = [
+        ...initialData.images,
+        initialData.billboard,
+        initialData.podcastUrl,
+      ]
 
-    startDeleteTransition(async () => {
-      try {
-        const { success, error } = await deleteEvent(
-          initialData?.id!,
-          filesToDelete
-        )
+      startDeleteTransition(async () => {
+        try {
+          const { success, error } = await deleteEvent(
+            initialData.id,
+            filesToDelete
+          )
 
-        if (error) {
-          toast.error(error)
+          if (error) {
+            toast.error(error)
+          }
+
+          if (success) {
+            router.push("/events")
+            toast.success(success)
+          }
+        } catch {
+          toast.error("Algo salió mal al eliminar el evento.")
+        } finally {
+          setOpen(false)
         }
-
-        if (success) {
-          router.push("/events")
-          toast.success(success)
-        }
-      } catch (error) {
-        toast.error("Algo salió mal al eliminar el evento.")
-      } finally {
-        setOpen(false)
-      }
-    })
+      })
+    }
   }
 
   return (

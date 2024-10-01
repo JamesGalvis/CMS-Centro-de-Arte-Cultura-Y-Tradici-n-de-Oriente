@@ -105,7 +105,7 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
       if (initialData) {
         updateProcess(values, newImage!)
       }
-    } catch (error) {
+    } catch {
       toast.error("Algo salió mal.")
     }
   }
@@ -125,7 +125,7 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
       if (error) {
         toast.error(error)
       }
-    } catch (error) {
+    } catch {
       toast.error("Algo salio mal al crear el cartel publicitario.")
     }
   }
@@ -135,21 +135,23 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
     imageUrl: string
   ) => {
     try {
-      const { success, error } = await updateBillboard(
-        initialData?.id!,
-        imageUrl,
-        values
-      )
+      if (initialData && initialData.id) {
+        const { success, error } = await updateBillboard(
+          initialData.id,
+          imageUrl,
+          values
+        )
 
-      if (success) {
-        toast.success(toastMessage)
-        router.push("/billboards")
-      }
+        if (success) {
+          toast.success(toastMessage)
+          router.push("/billboards")
+        }
 
-      if (error) {
-        toast.error(error)
+        if (error) {
+          toast.error(error)
+        }
       }
-    } catch (error) {
+    } catch {
       toast.error("Algo salió mal en la actualización.")
     }
   }
@@ -157,20 +159,22 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
   const handleDeletionConfirmation = () => {
     startTransition(async () => {
       try {
-        const { success, error } = await deleteBillboard(
-          initialData?.id!,
-          initialData?.image!
-        )
+        if (initialData && initialData.id) {
+          const { success, error } = await deleteBillboard(
+            initialData.id,
+            initialData.image
+          )
 
-        if (error) {
-          toast.error(error)
-        }
+          if (error) {
+            toast.error(error)
+          }
 
-        if (success) {
-          router.push("/billboards")
-          toast.success(success)
+          if (success) {
+            router.push("/billboards")
+            toast.success(success)
+          }
         }
-      } catch (error) {
+      } catch {
         toast.error("Algo salió mal al eliminar el cartel publicitario.")
       } finally {
         setOpen(false)
@@ -418,9 +422,7 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
               disabled={isSubmitting || !isValid || !formData.image}
               className="font-semibold"
             >
-              {isSubmitting && (
-                <Loader2 className="size-5 mr-3 animate-spin" />
-              )}
+              {isSubmitting && <Loader2 className="size-5 mr-3 animate-spin" />}
               {action}
             </Button>
           </div>

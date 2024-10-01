@@ -51,7 +51,7 @@ export function SignUpForm() {
       }
 
       form.reset()
-    } catch (error) {
+    } catch {
       toast.error("Algo salió mal!")
     }
   }

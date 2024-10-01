@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 const allowedOrigin = process.env.NEXT_PUBLIC_ALLOWED_ORIGIN as string;
 
 export async function GET(
-  req: Request,
+  _: Request,
   { params }: { params: { eventId: string } }
 ) {
   try {
@@ -24,7 +24,7 @@ export async function GET(
 
     return NextResponse.json(event, { headers })
   } catch (error) {
-    console.log("[EVENT_GET_ERROR]")
+    console.log("[EVENT_GET_ERROR]", error)
     return new NextResponse("Internal error", { status: 500 })
   }
 }
