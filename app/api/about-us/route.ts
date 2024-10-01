@@ -18,8 +18,8 @@ export async function GET(req: Request) {
     })
 
     return NextResponse.json(aboutUsSections, { headers })
-  } catch (error) {
-    console.error("[ABOUT_US_GET_ERROR]", error);
+  } catch (error: any) {
+    console.error("[ABOUT_US_GET_ERROR]", error.message || error);
     return new NextResponse("Internal error", { status: 500 })
   }
 }
