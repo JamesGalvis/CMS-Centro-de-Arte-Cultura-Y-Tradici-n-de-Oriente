@@ -97,7 +97,7 @@ export async function updateEvent(
 
     revalidatePath("/events")
     return { success: "Evento actualizado." }
-  } catch (error) {
+  } catch {
     return { error: "Algo salio mal en el proceso." }
   }
 }

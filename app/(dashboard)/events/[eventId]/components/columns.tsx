@@ -20,7 +20,6 @@ export const columns: ColumnDef<EventCommentsColumn>[] = [
   },
   {
     id: "actions",
-    // cell: ({ row }) => <CellAction eventData={row.original} />,
-    cell: ({ row }) => <></>,
+    cell: ({ row }) => <CellAction commentData={row.original} />,
   },
 ]
