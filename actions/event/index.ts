@@ -11,10 +11,13 @@ export async function getEventById(eventId: string) {
   try {
     const event = await db.event.findUnique({
       where: { id: eventId },
+      include: {
+        comments: true
+      }
     })
 
     return event
-  } catch (error) {
+  } catch {
     return null
   }
 }

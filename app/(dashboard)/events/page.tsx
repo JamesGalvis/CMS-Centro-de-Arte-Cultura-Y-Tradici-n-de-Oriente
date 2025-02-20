@@ -1,9 +1,9 @@
 import { DataTable } from "@/components/common/data-table"
 import { Header } from "@/components/common/header"
-import { columns, EventsColumn } from "./components/columns"
 import { db } from "@/lib/db"
 import { Heading } from "@/components/common/heading"
 import ApiList from "@/components/common/api-list"
+import { columns, EventsColumn } from "./components/columns"
 
 export default async function EventsPage() {
   const events = await db.event.findMany()
