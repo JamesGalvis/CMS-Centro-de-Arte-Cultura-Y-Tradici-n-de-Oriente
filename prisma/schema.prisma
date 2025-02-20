@@ -86,3 +86,14 @@ model Event {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Testimonials {
+  id       String @id @default(cuid())
+  name     String
+  position String
+  content  String
+  imageUrl String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

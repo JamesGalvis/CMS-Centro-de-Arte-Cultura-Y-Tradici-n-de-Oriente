@@ -31,7 +31,7 @@ export async function createAboutUsSection(
 
     revalidatePath("/about-us")
     return { success: "Sección informativa creada." }
-  } catch (error) {
+  } catch {
     return { error: "Algo salio mal en el proceso." }
   }
 }
@@ -66,7 +66,7 @@ export async function updateAboutUsSection(
 
     revalidatePath("/about-us")
     return { success: "Sección informativa actualizada." }
-  } catch (error) {
+  } catch {
     return { error: "Algo salio mal en el proceso." }
   }
 }
@@ -99,7 +99,7 @@ export async function deleteAboutUsSection(
     }
     revalidatePath("/about-us")
     return { success: "Sección informativa eliminada." }
-  } catch (error) {
+  } catch {
     return { error: "Algo salió mal en el proceso." }
   }
 }

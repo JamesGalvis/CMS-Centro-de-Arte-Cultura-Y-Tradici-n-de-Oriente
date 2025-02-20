@@ -15,4 +15,8 @@ export const navRoutes = [
     label: "Eventos",
     href: "/events"
   },
+  {
+    label: "Testimonios",
+    href: "/testimonials"
+  },
 ]

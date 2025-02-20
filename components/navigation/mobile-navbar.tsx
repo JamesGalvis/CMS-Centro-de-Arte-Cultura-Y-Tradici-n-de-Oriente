@@ -2,7 +2,13 @@
 
 import { MenuIcon } from "lucide-react"
 import { Button } from "../ui/button"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet"
 import { NavRoutes } from "./nav-routes"
 
 export function MobileNavbar() {
@@ -17,7 +23,7 @@ export function MobileNavbar() {
         <SheetHeader className="text-start">
           <SheetTitle className="text-start w-full">Navegación</SheetTitle>
         </SheetHeader>
-        
+
         <div className="mt-12 my-4">
           <NavRoutes isMobileNav direction="column" />
         </div>

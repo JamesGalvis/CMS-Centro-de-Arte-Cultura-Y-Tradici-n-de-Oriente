@@ -11,7 +11,7 @@ import {
 
 interface ModalProps {
   title: string
-  descripion: string
+  descripion?: string
   isOpen: boolean
   onClose: () => void
   children?: React.ReactNode
