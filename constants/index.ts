@@ -12,6 +12,10 @@ export const navRoutes = [
     href: "/relevant-articles"
   },
   {
+    label: "Galería",
+    href: "/gallery"
+  },
+  {
     label: "Eventos",
     href: "/events"
   },
