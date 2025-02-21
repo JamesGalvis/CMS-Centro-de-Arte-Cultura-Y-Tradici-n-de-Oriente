@@ -1,9 +1,5 @@
 export const navRoutes = [
   {
-    label: "Dashboard",
-    href: "/"
-  },
-  {
     label: "Carteles publicitarios",
     href: "/billboards"
   },
@@ -12,8 +8,16 @@ export const navRoutes = [
     href: "/about-us"
   },
   {
+    label: "Artículos relevantes",
+    href: "/relevant-articles"
+  },
+  {
     label: "Eventos",
     href: "/events"
+  },
+  {
+    label: "Eventos especiales",
+    href: "/special-events"
   },
   {
     label: "Testimonios",

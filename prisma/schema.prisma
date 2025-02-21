@@ -71,6 +71,47 @@ model AboutUs {
   updatedAt DateTime @updatedAt
 }
 
+model Article {
+  id          String  @id @default(cuid())
+  title       String
+  description String
+  image       String
+  reverse     Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SpecialEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  address     String
+  startDate   DateTime
+  endDate     DateTime
+  billboard   String // Imagen del evento
+  images      String[]
+  podcastUrl  String
+  videoUrl    String
+
+  comments SpecialEventComment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SpecialEventComment {
+  id      String @id @default(cuid())
+  name    String
+  comment String
+
+  eventId String
+  event   SpecialEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Event {
   id          String   @id @default(cuid())
   title       String

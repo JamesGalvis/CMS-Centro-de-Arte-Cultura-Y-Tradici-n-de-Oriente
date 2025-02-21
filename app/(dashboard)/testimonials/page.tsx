@@ -34,7 +34,7 @@ export default async function TestimonialPage() {
         columns={columns}
         data={formattedTestomonials}
       />
-      <Heading title="API" description="Llamadas a la API para los eventos" />
+      <Heading title="API" description="Llamadas a la API para los testimonios" />
       <ApiList entityName="testimonials" entityIdName="testimonialId" />
     </div>
   );
