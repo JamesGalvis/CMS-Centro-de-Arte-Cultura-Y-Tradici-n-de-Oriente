@@ -105,7 +105,7 @@ export function NewTestimonialForm({
 
           if (success) {
             toast.success(success);
-            clearData();
+            closeModal();
           }
 
           if (error) {

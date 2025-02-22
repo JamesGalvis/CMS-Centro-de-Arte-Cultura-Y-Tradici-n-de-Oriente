@@ -24,6 +24,10 @@ export const navRoutes = [
     href: "/special-events"
   },
   {
+    label: "Noticias",
+    href: "/news"
+  },
+  {
     label: "Testimonios",
     href: "/testimonials"
   },

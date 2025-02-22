@@ -27,7 +27,7 @@ export function Header({
       {!hideButton && (
         <Button onClick={() => (buttonHref && router.push(buttonHref))}>
           <Plus className="size-4 mr-2" />
-          Agregar nuevo
+          Agregar
         </Button>
       )}
     </div>

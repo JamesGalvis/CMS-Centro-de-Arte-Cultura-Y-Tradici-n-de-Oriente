@@ -15,7 +15,7 @@ export function MobileNavbar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="icon" variant="outline" className="lg:hidden">
+        <Button size="icon" variant="outline" className="">
           <MenuIcon className="size-4" />
         </Button>
       </SheetTrigger>

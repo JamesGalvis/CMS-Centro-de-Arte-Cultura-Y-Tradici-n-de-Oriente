@@ -351,7 +351,7 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push("/events")}
+          onClick={() => router.push("/special-events")}
           className="p-0 size-fit hover:bg-transparent dark:hover:bg-transparent mb-2"
         >
           <ArrowLeft className="size-5 mr-2" />
