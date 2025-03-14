@@ -1,4 +1,4 @@
-export const DEFAULT_LOGIN_REDIRECT = "/"
+export const DEFAULT_LOGIN_REDIRECT = "/billboards"
 export const DEFAULT_AUTH_REDIRECT = "/auth/login"
 
 export const publicRoutes = ["/api/billboards", "/api/about-us", "/api/events"]
