@@ -23,7 +23,6 @@ import esES from "rsuite/locales/es_ES"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -68,6 +67,9 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
   )
   const [file, setFile] = useState<File | null>(null)
   const [imageFiles, setImageFiles] = useState<File[] | null>(null)
+  const [videoUrl, setVideoUrl] = useState<string | undefined>(
+      initialData?.videoUrl ?? undefined
+    );
   const [podcastFile, setPodcastFile] = useState<File | null>(null)
 
   const title = initialData ? "Editar evento" : "Crear evento"
@@ -85,11 +87,10 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
       address: initialData?.address || "",
       startDate: initialData?.startDate,
       endDate: initialData?.endDate,
-      videoUrl: initialData?.videoUrl || "",
     },
   })
 
-  const { isSubmitting, isValid } = form.formState
+  const { isSubmitting } = form.formState
 
   // Funciones para la elección de la imagen y el podcast
   const handleChange = (
@@ -260,7 +261,8 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
         values,
         billboardImage,
         images,
-        audio
+        audio,
+        videoUrl
       )
 
       if (success) {
@@ -289,7 +291,8 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
           values,
           images,
           billboardImage,
-          audioUrl
+          audioUrl,
+          videoUrl
         )
 
         if (success) {
@@ -314,27 +317,29 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
         initialData.podcastUrl,
       ]
 
-      startDeleteTransition(async () => {
-        try {
-          const { success, error } = await deleteSpecialEvent(
-            initialData.id,
-            filesToDelete
-          )
-
-          if (error) {
-            toast.error(error)
+      if (filesToDelete.length > 0) {
+        startDeleteTransition(async () => {
+          try {
+            const { success, error } = await deleteSpecialEvent(
+              initialData.id,
+              filesToDelete as Array<string>
+            )
+  
+            if (error) {
+              toast.error(error)
+            }
+  
+            if (success) {
+              router.push("/special-events")
+              toast.success(success)
+            }
+          } catch {
+            toast.error("Algo salió mal al eliminar el evento.")
+          } finally {
+            setOpen(false)
           }
-
-          if (success) {
-            router.push("/special-events")
-            toast.success(success)
-          }
-        } catch {
-          toast.error("Algo salió mal al eliminar el evento.")
-        } finally {
-          setOpen(false)
-        }
-      })
+        })
+      }
     }
   }
 
@@ -609,27 +614,22 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-8">
-                    <FormField
-                      name="videoUrl"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Enlace del video promocional *</FormLabel>
-                          <FormControl>
-                            <Input
-                              variant="largeRounded"
-                              placeholder="Enlace del video promocional"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                          <FormDescription>
-                            La URL debe ser válida
-                          </FormDescription>
-                        </FormItem>
-                      )}
-                    />
+                  <div className="space-y-3">
+                      <Label className="">
+                        URL del video
+                      </Label>
+
+                      <Input
+                        variant="largeRounded"
+                        placeholder="Enlace del video promocional"
+                        disabled={isSubmitting}
+                        value={videoUrl}
+                        onChange={(e) => {
+                          console.log(e.target.value)
+                          setVideoUrl(e.target.value);
+                        }}
+                      />
+                    </div>
                     <div className="relative space-y-2">
                       <Label>Podcast *</Label>
                       <div className="flex items-center gap-3 rounded-lg h-[56px]">
@@ -681,10 +681,7 @@ export function SpecialEventForm({ initialData }: EventFormProps) {
                 type="submit"
                 disabled={
                   isSubmitting ||
-                  !isValid ||
                   !imageSrc ||
-                  !podcastSrc ||
-                  !imagesSrc ||
                   isLoading
                 }
                 className="font-semibold"

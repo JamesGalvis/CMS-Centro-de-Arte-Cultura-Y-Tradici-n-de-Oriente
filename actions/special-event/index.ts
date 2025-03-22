@@ -26,7 +26,8 @@ export async function createSpecialEvent(
   eventData: z.infer<typeof EventSchema>,
   billboardImge: string,
   images: string[],
-  podcast: string
+  podcast: string,
+  videoUrl?: string
 ) {
   const result = EventSchema.safeParse(eventData)
 
@@ -34,7 +35,7 @@ export async function createSpecialEvent(
     return { error: "Datos inváidos!" }
   }
 
-  const { title, description, address, startDate, endDate, videoUrl } =
+  const { title, description, address, startDate, endDate } =
     result.data
 
   try {
@@ -64,7 +65,8 @@ export async function updateSpecialEvent(
   eventData: z.infer<typeof EventSchema>,
   images: string[],
   billboardImage: string,
-  audioUrl: string
+  audioUrl: string,
+  videoUrl?: string
 ) {
   const result = EventSchema.safeParse(eventData)
 
@@ -76,7 +78,7 @@ export async function updateSpecialEvent(
     return { error: "Datos inváidos!" }
   }
 
-  const { title, description, address, startDate, endDate, videoUrl } =
+  const { title, description, address, startDate, endDate } =
     result.data
 
   try {
