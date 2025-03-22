@@ -87,7 +87,6 @@ export function EventForm({ initialData }: EventFormProps) {
       address: initialData?.address || "",
       startDate: initialData?.startDate,
       endDate: initialData?.endDate,
-      // videoUrl: initialData?.videoUrl || undefined,
     },
   });
 
@@ -238,6 +237,8 @@ export function EventForm({ initialData }: EventFormProps) {
           if (initialData?.podcastUrl) {
             await deleteFile(initialData.podcastUrl);
           }
+        } else {
+          audioUrl = ""
         }
 
         if (!initialData) {

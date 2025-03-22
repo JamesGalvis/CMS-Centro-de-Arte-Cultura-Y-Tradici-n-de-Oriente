@@ -81,6 +81,8 @@ export async function updateEvent(
   const { title, description, address, startDate, endDate } =
     result.data
 
+    console.log(audioUrl)
+
   try {
     await db.event.update({
       where: { id: eventId },
