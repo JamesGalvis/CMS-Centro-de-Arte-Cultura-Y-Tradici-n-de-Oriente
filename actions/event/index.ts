@@ -26,7 +26,8 @@ export async function createEvent(
   eventData: z.infer<typeof EventSchema>,
   billboardImge: string,
   images: string[],
-  podcast: string
+  podcast: string,
+  videoUrl?: string
 ) {
   const result = EventSchema.safeParse(eventData)
 
@@ -34,7 +35,7 @@ export async function createEvent(
     return { error: "Datos inváidos!" }
   }
 
-  const { title, description, address, startDate, endDate, videoUrl } =
+  const { title, description, address, startDate, endDate } =
     result.data
 
   try {
@@ -54,7 +55,7 @@ export async function createEvent(
 
     revalidatePath("/events")
     return { success: "Evento creado." }
-  } catch (error) {
+  } catch {
     return { error: "Algo salio mal en el proceso." }
   }
 }
@@ -64,7 +65,8 @@ export async function updateEvent(
   eventData: z.infer<typeof EventSchema>,
   images: string[],
   billboardImage: string,
-  audioUrl: string
+  audioUrl: string,
+  videoUrl?: string
 ) {
   const result = EventSchema.safeParse(eventData)
 
@@ -76,7 +78,7 @@ export async function updateEvent(
     return { error: "Datos inváidos!" }
   }
 
-  const { title, description, address, startDate, endDate, videoUrl } =
+  const { title, description, address, startDate, endDate } =
     result.data
 
   try {
@@ -127,7 +129,7 @@ export async function deleteEvent(eventId: string, files: string[]) {
     }
     revalidatePath("/events")
     return { success: "Evento eliminado." }
-  } catch (error) {
+  } catch {
     return { error: "Algo salió mal en el proceso." }
   }
 }

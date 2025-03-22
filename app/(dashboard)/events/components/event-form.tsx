@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { z } from "zod"
-import { Event } from "@prisma/client"
+import { z } from "zod";
+import { Event } from "@prisma/client";
 import {
   ArrowLeft,
   FileAudio,
@@ -10,72 +10,74 @@ import {
   Loader2,
   Trash2,
   X,
-} from "lucide-react"
-import Image from "next/image"
-import { ChangeEvent, useState, useTransition } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { CustomProvider, DatePicker } from "rsuite"
-import "rsuite/dist/rsuite-no-reset.min.css"
-import esES from "rsuite/locales/es_ES"
+} from "lucide-react";
+import Image from "next/image";
+import { ChangeEvent, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { CustomProvider, DatePicker } from "rsuite";
+import "rsuite/dist/rsuite-no-reset.min.css";
+import esES from "rsuite/locales/es_ES";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { AlertModal } from "@/components/common/alert-modal"
-import { Heading } from "@/components/common/heading"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { EventSchema } from "@/schemas/event"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { cn } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { AlertModal } from "@/components/common/alert-modal";
+import { Heading } from "@/components/common/heading";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { EventSchema } from "@/schemas/event";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import {
   deleteFile,
   deleteFiles,
   uploadAudio,
   uploadImage,
   uploadImages,
-} from "@/actions/uploadthing"
-import { createEvent, deleteEvent, updateEvent } from "@/actions/event"
+} from "@/actions/uploadthing";
+import { createEvent, deleteEvent, updateEvent } from "@/actions/event";
 
 interface EventFormProps {
-  initialData: Event | null
+  initialData: Event | null;
 }
 
 export function EventForm({ initialData }: EventFormProps) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [open, setOpen] = useState(false)
-  const [loadingDelete, startDeleteTransition] = useTransition()
+  const [open, setOpen] = useState(false);
+  const [loadingDelete, startDeleteTransition] = useTransition();
 
-  const [isLoading, startTransition] = useTransition()
+  const [isLoading, startTransition] = useTransition();
   const [imageSrc, setImageSrc] = useState<string | null>(
     initialData?.billboard ?? ""
-  )
+  );
   const [podcastSrc, setPodcastSrc] = useState<string | null>(
     initialData?.podcastUrl ?? ""
-  )
+  );
+  const [videoUrl, setVideoUrl] = useState<string | undefined>(
+    initialData?.videoUrl ?? undefined
+  );
   const [imagesSrc, setImagesSrc] = useState<string[] | null>(
     initialData?.images ?? null
-  )
-  const [file, setFile] = useState<File | null>(null)
-  const [imageFiles, setImageFiles] = useState<File[] | null>(null)
-  const [podcastFile, setPodcastFile] = useState<File | null>(null)
+  );
+  const [file, setFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[] | null>(null);
+  const [podcastFile, setPodcastFile] = useState<File | null>(null);
 
-  const title = initialData ? "Editar evento" : "Crear evento"
+  const title = initialData ? "Editar evento" : "Crear evento";
   const description = initialData
     ? "Realiza los cambios que necesites para el evento"
-    : "Agrega un nuevo evento"
-  const toastMessage = initialData ? "Evento actualizado" : "Evento creado"
-  const action = initialData ? "Guardar cambios" : "Crear evento"
+    : "Agrega un nuevo evento";
+  const toastMessage = initialData ? "Evento actualizado" : "Evento creado";
+  const action = initialData ? "Guardar cambios" : "Crear evento";
 
   const form = useForm<z.infer<typeof EventSchema>>({
     resolver: zodResolver(EventSchema),
@@ -85,169 +87,169 @@ export function EventForm({ initialData }: EventFormProps) {
       address: initialData?.address || "",
       startDate: initialData?.startDate,
       endDate: initialData?.endDate,
-      videoUrl: initialData?.videoUrl || "",
+      // videoUrl: initialData?.videoUrl || undefined,
     },
-  })
+  });
 
-  const { isSubmitting, isValid } = form.formState
+  const { isSubmitting } = form.formState;
 
   // Funciones para la elección de la imagen y el podcast
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
     type: "image" | "podcast"
   ) => {
-    const file = e.target.files && e.target.files[0]
+    const file = e.target.files && e.target.files[0];
 
     if (file && type === "image") {
-      const maxSizeInBytes = 1 * 1024 * 1024 // Tamaño máximo de la imagen 4MB
+      const maxSizeInBytes = 1 * 1024 * 1024; // Tamaño máximo de la imagen 4MB
       if (file.size > maxSizeInBytes) {
-        setImageSrc(null)
+        setImageSrc(null);
         toast.error(
           "La imagen seleccionada excede el tamaño máximo permitido de 4MB."
-        )
-        return
+        );
+        return;
       }
 
-      setFile(file)
+      setFile(file);
 
-      const src = URL.createObjectURL(file)
-      setImageSrc(src)
+      const src = URL.createObjectURL(file);
+      setImageSrc(src);
 
       // Restablecer el valor del campo para permitir la selección del mismo archivo después
-      e.target.value = ""
+      e.target.value = "";
     }
 
     if (file && type === "podcast") {
-      setPodcastFile(file)
+      setPodcastFile(file);
 
-      const src = URL.createObjectURL(file)
-      setPodcastSrc(src)
+      const src = URL.createObjectURL(file);
+      setPodcastSrc(src);
 
       // Restablecer el valor del campo para permitir la selección del mismo archivo después
-      e.target.value = ""
+      e.target.value = "";
     }
-  }
+  };
 
   // Función para manejar la selección de múltiples imágenes
   const handleMultipleImageSelection = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
+    const files = e.target.files;
 
-    if (!files) return
+    if (!files) return;
 
-    const maxSizeInBytes = 4 * 1024 * 1024 // Tamaño máximo por imagen (4MB)
-    const selectedFiles = Array.from(files)
+    const maxSizeInBytes = 4 * 1024 * 1024; // Tamaño máximo por imagen (4MB)
+    const selectedFiles = Array.from(files);
 
     // Verifica si alguna imagen excede el tamaño permitido
     const validFiles = selectedFiles.filter((file) => {
       if (file.size > maxSizeInBytes) {
         toast.error(
           `La imagen ${file.name} excede el tamaño máximo permitido de 4MB.`
-        )
-        return false
+        );
+        return false;
       }
-      return true
-    })
+      return true;
+    });
 
     // Si hay imágenes válidas, las agregamos al estado
     if (validFiles.length > 0) {
-      const imageUrls = validFiles.map((file) => URL.createObjectURL(file))
+      const imageUrls = validFiles.map((file) => URL.createObjectURL(file));
       setImagesSrc((prevImages) =>
         prevImages ? [...prevImages, ...imageUrls] : imageUrls
-      )
+      );
       setImageFiles((prevFiles) =>
         prevFiles ? [...prevFiles, ...validFiles] : validFiles
-      )
+      );
     }
 
     // Restablecer el valor del input para permitir la selección del mismo archivo después
-    e.target.value = ""
-  }
+    e.target.value = "";
+  };
 
   const onSubmit = (values: z.infer<typeof EventSchema>) => {
-    const formData = new FormData()
+    const formData = new FormData();
 
     // Agregar la imagen principal si existe
     if (file) {
-      formData.append("image", file)
+      formData.append("image", file);
     }
 
     // Agregar las imágenes múltiples al mismo campo del FormData
     if (imageFiles && imageFiles.length > 0) {
       imageFiles.forEach((imageFile) => {
-        formData.append("images", imageFile) // Todas las imágenes se agregan bajo el mismo campo 'images'
-      })
+        formData.append("images", imageFile); // Todas las imágenes se agregan bajo el mismo campo 'images'
+      });
     }
 
     // Agregar el podcast si existe
     if (podcastFile) {
-      formData.append("audio", podcastFile)
+      formData.append("audio", podcastFile);
     }
 
     startTransition(async () => {
       try {
-        let billboardImage = initialData?.billboard || ""
-        let images = initialData?.images || []
-        let audioUrl = initialData?.podcastUrl || ""
+        let billboardImage = initialData?.billboard || "";
+        let images = initialData?.images || [];
+        let audioUrl = initialData?.podcastUrl || "";
 
         // Si hay una nueva imagen principal, subirla
         if (file) {
-          const mainImageResult = await uploadImage(formData)
+          const mainImageResult = await uploadImage(formData);
           if (!mainImageResult.success || !mainImageResult.imageUrl) {
-            throw new Error("Error uploading main image")
+            throw new Error("Error uploading main image");
           }
-          billboardImage = mainImageResult.imageUrl
+          billboardImage = mainImageResult.imageUrl;
 
           // Eliminar la imagen principal anterior si existe
           if (initialData?.billboard) {
-            await deleteFile(initialData.billboard)
+            await deleteFile(initialData.billboard);
           }
         }
 
         // Si hay nuevas imágenes adicionales, subirlas
         if (imageFiles && imageFiles.length > 0) {
-          const imagesResult = await uploadImages(formData)
+          const imagesResult = await uploadImages(formData);
           if (!imagesResult.success || !imagesResult.imageUrls) {
-            throw new Error("Error uploading event images")
+            throw new Error("Error uploading event images");
           }
 
           // Agregar las nuevas imágenes a la lista de imágenes existentes
-          images = [...images, ...imagesResult.imageUrls.map((img) => img.url)]
+          images = [...images, ...imagesResult.imageUrls.map((img) => img.url)];
         }
 
         // Si hay imágenes eliminadas, eliminarlas del servidor
         const removedImages = initialData?.images?.filter(
           (img) => !imagesSrc?.includes(img)
-        )
+        );
         if (removedImages && removedImages.length > 0) {
-          await deleteFiles(removedImages)
+          await deleteFiles(removedImages);
           // Actualizar la lista de imágenes existentes
-          images = images.filter((img) => !removedImages.includes(img))
+          images = images.filter((img) => !removedImages.includes(img));
         }
 
         // Si hay un nuevo podcast, subirlo
         if (podcastFile) {
-          const audioResult = await uploadAudio(formData)
+          const audioResult = await uploadAudio(formData);
           if (!audioResult.success || !audioResult.audioUrl) {
-            throw new Error("Error uploading audio")
+            throw new Error("Error uploading audio");
           }
-          audioUrl = audioResult.audioUrl
+          audioUrl = audioResult.audioUrl;
 
           // Eliminar el podcast anterior si existe
           if (initialData?.podcastUrl) {
-            await deleteFile(initialData.podcastUrl)
+            await deleteFile(initialData.podcastUrl);
           }
         }
 
         if (!initialData) {
-          await creationProcess(values, billboardImage, images, audioUrl)
+          await creationProcess(values, billboardImage, images, audioUrl);
         } else {
-          await updateProcess(values, billboardImage, images, audioUrl)
+          await updateProcess(values, billboardImage, images, audioUrl);
         }
       } catch {
-        toast.error("Algo salió mal en la subida de los archivos multimedia.")
+        toast.error("Algo salió mal en la subida de los archivos multimedia.");
       }
-    })
-  }
+    });
+  };
 
   const creationProcess = async (
     values: z.infer<typeof EventSchema>,
@@ -260,21 +262,22 @@ export function EventForm({ initialData }: EventFormProps) {
         values,
         billboardImage,
         images,
-        audio
-      )
+        audio,
+        videoUrl
+      );
 
       if (success) {
-        toast.success(toastMessage)
-        router.push("/events")
+        toast.success(toastMessage);
+        router.push("/events");
       }
 
       if (error) {
-        toast.error(error)
+        toast.error(error);
       }
     } catch {
-      toast.error("Algo salio mal al crear el cartel publicitario.")
+      toast.error("Algo salio mal al crear el cartel publicitario.");
     }
-  }
+  };
 
   const updateProcess = async (
     values: z.infer<typeof EventSchema>,
@@ -289,22 +292,23 @@ export function EventForm({ initialData }: EventFormProps) {
           values,
           images,
           billboardImage,
-          audioUrl
-        )
+          audioUrl,
+          videoUrl
+        );
 
         if (success) {
-          toast.success(toastMessage)
-          router.push("/events")
+          toast.success(toastMessage);
+          router.push("/events");
         }
 
         if (error) {
-          toast.error(error)
+          toast.error(error);
         }
       }
     } catch {
-      toast.error("Algo salió mal en la actualización del evento.")
+      toast.error("Algo salió mal en la actualización del evento.");
     }
-  }
+  };
 
   const handleDeletionConfirmation = () => {
     if (initialData) {
@@ -312,31 +316,33 @@ export function EventForm({ initialData }: EventFormProps) {
         ...initialData.images,
         initialData.billboard,
         initialData.podcastUrl,
-      ]
+      ];
 
-      startDeleteTransition(async () => {
-        try {
-          const { success, error } = await deleteEvent(
-            initialData.id,
-            filesToDelete
-          )
+      if (filesToDelete.length > 0) {
+        startDeleteTransition(async () => {
+          try {
+            const { success, error } = await deleteEvent(
+              initialData.id,
+              filesToDelete as Array<string>
+            );
 
-          if (error) {
-            toast.error(error)
+            if (error) {
+              toast.error(error);
+            }
+
+            if (success) {
+              router.push("/events");
+              toast.success(success);
+            }
+          } catch {
+            toast.error("Algo salió mal al eliminar el evento.");
+          } finally {
+            setOpen(false);
           }
-
-          if (success) {
-            router.push("/events")
-            toast.success(success)
-          }
-        } catch {
-          toast.error("Algo salió mal al eliminar el evento.")
-        } finally {
-          setOpen(false)
-        }
-      })
+        });
+      }
     }
-  }
+  };
 
   return (
     <CustomProvider locale={esES}>
@@ -364,7 +370,7 @@ export function EventForm({ initialData }: EventFormProps) {
               variant="destructive"
               size="icon"
               onClick={() => {
-                setOpen(true)
+                setOpen(true);
               }}
               className="dark:bg-red-500 max-xs:w-full items-center"
             >
@@ -428,9 +434,9 @@ export function EventForm({ initialData }: EventFormProps) {
                     variant="destructive"
                     className="absolute top-1 right-1 dark:bg-red-500 rounded-full"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      setFile(null)
-                      setImageSrc(null)
+                      e.stopPropagation();
+                      setFile(null);
+                      setImageSrc(null);
                     }}
                   >
                     <X className="size-4" />
@@ -592,12 +598,12 @@ export function EventForm({ initialData }: EventFormProps) {
                                     (prev) =>
                                       prev?.filter((_, i) => i !== index) ||
                                       null
-                                  )
+                                  );
                                   setImageFiles(
                                     (prev) =>
                                       prev?.filter((_, i) => i !== index) ||
                                       null
-                                  )
+                                  );
                                 }}
                               >
                                 <X className="size-4" />
@@ -609,29 +615,24 @@ export function EventForm({ initialData }: EventFormProps) {
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-8">
-                    <FormField
-                      name="videoUrl"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Enlace del video promocional *</FormLabel>
-                          <FormControl>
-                            <Input
-                              variant="largeRounded"
-                              placeholder="Enlace del video promocional"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                          <FormDescription>
-                            La URL debe ser válida
-                          </FormDescription>
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-3">
+                      <Label className="">
+                        URL del video
+                      </Label>
+
+                      <Input
+                        variant="largeRounded"
+                        placeholder="Enlace del video promocional"
+                        disabled={isSubmitting}
+                        value={videoUrl}
+                        onChange={(e) => {
+                          console.log(e.target.value)
+                          setVideoUrl(e.target.value);
+                        }}
+                      />
+                    </div>
                     <div className="relative space-y-2">
-                      <Label>Podcast *</Label>
+                      <Label>Podcast</Label>
                       <div className="flex items-center gap-3 rounded-lg h-[56px]">
                         <label
                           htmlFor="podcastFileInput"
@@ -661,9 +662,9 @@ export function EventForm({ initialData }: EventFormProps) {
                             variant="destructive"
                             className="dark:bg-red-500 rounded-full"
                             onClick={(e) => {
-                              e.stopPropagation()
-                              setPodcastFile(null)
-                              setPodcastSrc(null)
+                              e.stopPropagation();
+                              setPodcastFile(null);
+                              setPodcastSrc(null);
                             }}
                           >
                             <X className="size-4" />
@@ -679,14 +680,7 @@ export function EventForm({ initialData }: EventFormProps) {
             <div className="pt-3 pb-2 text-end">
               <Button
                 type="submit"
-                disabled={
-                  isSubmitting ||
-                  !isValid ||
-                  !imageSrc ||
-                  !podcastSrc ||
-                  !imagesSrc ||
-                  isLoading
-                }
+                disabled={isSubmitting || !imageSrc || isLoading}
                 className="font-semibold"
               >
                 {isSubmitting ||
@@ -700,5 +694,5 @@ export function EventForm({ initialData }: EventFormProps) {
         </Form>
       </div>
     </CustomProvider>
-  )
+  );
 }

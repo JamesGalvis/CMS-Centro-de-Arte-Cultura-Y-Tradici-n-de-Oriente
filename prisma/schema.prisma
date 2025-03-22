@@ -109,9 +109,9 @@ model SpecialEvent {
   startDate   DateTime
   endDate     DateTime
   billboard   String // Imagen del evento
-  images      String[]
-  podcastUrl  String
-  videoUrl    String
+  images      String[] @default([])
+  podcastUrl  String?
+  videoUrl    String?
 
   comments SpecialEventComment[]
 
@@ -139,9 +139,9 @@ model Event {
   startDate   DateTime
   endDate     DateTime
   billboard   String // Imagen del evento
-  images      String[]
-  podcastUrl  String
-  videoUrl    String
+  images      String[] @default([])
+  podcastUrl  String?
+  videoUrl    String?
 
   comments EventComment[]
 
