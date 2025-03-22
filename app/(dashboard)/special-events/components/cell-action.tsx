@@ -45,7 +45,7 @@ export function CellAction({ eventData }: CellActionProps) {
           if (event && event.id) {
             const { success, error } = await deleteEvent(
               event.id,
-              filesToDelete
+              filesToDelete as Array<string>
             )
 
             if (error) {
